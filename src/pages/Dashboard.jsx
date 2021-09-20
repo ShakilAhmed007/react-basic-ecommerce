@@ -45,6 +45,7 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
+    console.log(inCart);
     getProduct();
     return () => {
 
@@ -54,19 +55,21 @@ export default function Dashboard() {
 
   const addToCart = (product) => {
     let data = [...inCart,
-      product];
-    const newArray = data.filter((value, index) => {
-      return data.indexOf(value) === index;
-    })
-    setInCart(newArray);
+      {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.image,
+        quantity: '',
+      }];
+
+    const filteredItems = [...new Map(data.map(item =>
+      [item.id, item])).values()];
+
+    setInCart(filteredItems);
   }
 
-  useEffect(() => {
-    console.log(inCart);
-    return () => {
-      
-    }
-  }, [inCart])
+  useEffect(() => {}, [inCart])
 
   return (
     <div>
@@ -261,7 +264,7 @@ export default function Dashboard() {
           {/* /End replace */}
         </div>
       </main>
-      <ShopingCart cartData={[...inCart]}/>
+      <ShopingCart cartData={[...inCart]} setInCart={setInCart}/>
     </div>
   )
 }
