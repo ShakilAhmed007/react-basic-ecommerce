@@ -53,9 +53,12 @@ export default function Dashboard() {
 
 
   const addToCart = (product) => {
-    let data = [...inCart, product];
-    let filtered = [new Set(data)];
-    setInCart(filtered);
+    let data = [...inCart,
+      product];
+    const newArray = data.filter((value, index) => {
+      return data.indexOf(value) === index;
+    })
+    setInCart(newArray);
   }
 
   useEffect(() => {
@@ -246,7 +249,7 @@ export default function Dashboard() {
                       </p>
                       <div className="price text-xl font-bold mb-2">$ {product.price}</div>
                       <div className="tags inline">
-                        <span onClick={() => addToCart(product)} className="p-2 flex justify-center rounded bg-gray-200 hover:bg-gray-300">Add to Cart</span>
+                        <span onClick={() => addToCart(product)} className="p-2 flex justify-center rounded bg-gray-200 hover:bg-gray-300 cursor-pointer">Add to Cart</span>
                       </div>
                     </div>
                   </div>
@@ -258,7 +261,7 @@ export default function Dashboard() {
           {/* /End replace */}
         </div>
       </main>
-      <ShopingCart />
+      <ShopingCart cartData={[...inCart]}/>
     </div>
   )
 }
