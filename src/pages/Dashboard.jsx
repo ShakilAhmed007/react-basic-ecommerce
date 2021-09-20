@@ -239,6 +239,7 @@ export default function Dashboard() {
                     <div className="card-body p-3 py-4">
                       <h4 className="text-xl font-blod">
                       <TextTruncate 
+                         
                           line={1}
                           text={product.title}
                           truncateText=" "
@@ -246,6 +247,7 @@ export default function Dashboard() {
                       </h4>
                       <p className="font-normal text-sm my-2">
                         <TextTruncate 
+                        element="span"
                           line={3}
                           text={product.description}
                         />
