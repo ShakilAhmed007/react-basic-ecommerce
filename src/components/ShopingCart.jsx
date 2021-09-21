@@ -30,9 +30,10 @@ import './Shake.css'
 //   // More products...
 // ]
 
-export default function ShopingCart({cartData}) {
-  const [open, setOpen] = useState(false)
-  const [animate, setAnimate] = useState('')
+export default function ShopingCart({cartData, setInCart}) {
+  const [open, setOpen] = useState(false);
+  const [animate, setAnimate] = useState('');
+  const [subTotal, setSubTotal] = useState('');
 
   const handleAnimate = () => {
     if(cartData.length > 0){
@@ -43,11 +44,28 @@ export default function ShopingCart({cartData}) {
     }
   }
 
-  const handleRemove = () => {
-    
+  // const handleRemove = (arrayIndex) => {
+  //   console.log(arrayIndex);
+  //   const newArray = [...cartData.splice(arrayIndex, 1)];
+  //   setInCart(newArray)
+  // }
+
+  const handleRemove = (arrayIndex) => {
+    const newArray = cartData.filter((value, index) => {
+      return arrayIndex != index;
+    })
+    setInCart(newArray)
+  }
+  const countSubTotal = () => {
+      let value = 0;
+      cartData.map((data) => {
+        value = value + data.price
+      })
+      setSubTotal(Math.round(value));
   }
 
   useEffect(() => {
+    countSubTotal()
     handleAnimate()
   }, [cartData])
 
@@ -127,7 +145,7 @@ export default function ShopingCart({cartData}) {
                                   <p className="text-gray-500">Qty 2</p>
 
                                   <div className="flex">
-                                    <button type="button" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                    <button onClick={() => handleRemove(index)} type="button" className="font-medium text-indigo-600 hover:text-indigo-500">
                                       Remove
                                     </button>
                                   </div>
@@ -143,7 +161,8 @@ export default function ShopingCart({cartData}) {
                   <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
                     <div className="flex justify-between text-base font-medium text-gray-900">
                       <p>Subtotal</p>
-                      <p>$262.00</p>
+            
+                      <p className="font-bold text-lg">${subTotal}</p>
                     </div>
                     <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                     <div className="mt-6">
